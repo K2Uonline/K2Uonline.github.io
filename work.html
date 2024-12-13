@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work - K2U</title>
+    <title>Kaleb Walsh</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,16 +11,19 @@
             margin: 0;
             padding: 0;
         }
+
         header {
-            background-color: #333;
+            background-color: #002855; /* Dark blue */
             color: white;
             padding: 20px;
             text-align: center;
         }
+
         nav {
-            background-color: #444;
+            background-color: #004080; /* Slightly lighter blue */
             overflow: hidden;
         }
+
         nav a {
             color: white;
             text-align: center;
@@ -28,22 +31,83 @@
             display: inline-block;
             text-decoration: none;
         }
+
         nav a:hover {
-            background-color: #ddd;
-            color: black;
+            background-color: #0074d9; /* Lighter blue on hover */
+            color: white;
         }
+
         .container {
             padding: 20px;
         }
-        h1 {
+
+        h1, h2 {
             color: #333;
         }
-        .work-item {
+
+        .title {
+            color: white;
+        }
+
+        .blog-post {
             background-color: white;
             padding: 20px;
             margin: 20px 0;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .projects {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .project-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .project-image {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .project-image:hover {
+            transform: scale(1.1);
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -51,32 +115,42 @@
 
     <!-- Header -->
     <header>
-        <h1>K2U - Work</h1>
+        <h1 class="title">Kaleb Walsh</h1>
     </header>
 
-    <!-- Navigation Links -->
     <nav>
         <a href="index.html">Home</a>
         <a href="work.html">Work</a>
         <a href="projects.html">Projects</a>
-        <a href="about.html">About Me</a>
+        <a href="aboutme.html">About Me</a>
     </nav>
 
     <!-- Main Content -->
     <div class="container">
-        <h1>My Work</h1>
+        <h1>Work</h1>
+		
+		<!-- Intro to my work experience, SIO, Leidos, L3Harris to color coat the project to the company -->
+		
         <section class="work-item">
-            <h2>Micro-actuator System</h2>
-            <p>Power and communications over fiber.</p>
+			<h2>Micro-actuator System</h2>
+            <p> Modular, low power, high reliability, fast response  </p>
+			<p>Power over fiber (400mW) communications (TX/RX) over fiber (UART) through SMF-28 fiber base station. 
+			Photovoltaic, photodiode, laser diode, Super Capacitors on board </p>
+			<p>Motor driver. 2mm squiggle motor. I2C bus over Mill-Max pins</p>
+			<p> NXP KL03. . Low power (MCU goes to cleep).     </p>
+			
         </section>
+		
         <section class="work-item">
             <h2>Microscope Illuminator</h2>
             <p>Flexible patterned illuminator and driver.</p>
         </section>
+		
         <section class="work-item">
             <h2>X-ray Control System</h2>
             <p>Source and detector control for precision imaging.</p>
         </section>
+		
     </div>
 
 </body>
