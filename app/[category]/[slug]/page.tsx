@@ -13,7 +13,7 @@ export default async function Post({
   if (!post) {
     return (
       <div className="text-center py-12">
-        <h1 className="text-2xl font-bold text-red-600">Post not found</h1>
+        <h1 className="text-2xl font-bold text-coral-500">Post not found</h1>
       </div>
     )
   }
@@ -21,9 +21,9 @@ export default async function Post({
   return (
     <article className="max-w-3xl mx-auto">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-        <div className="flex items-center justify-between text-gray-600 dark:text-gray-400 mb-6">
-          <span className="capitalize">{post.category}</span>
+        <h1 className="text-4xl font-bold mb-4 text-white">{post.title}</h1>
+        <div className="flex items-center justify-between text-gray-400 mb-6">
+          <span className="capitalize text-secondary-400">{post.category}</span>
           <time>{format(new Date(post.date), 'MMMM d, yyyy')}</time>
         </div>
         {post.coverImage && (
@@ -37,7 +37,7 @@ export default async function Post({
           </div>
         )}
       </header>
-      <div className="prose dark:prose-invert max-w-none">
+      <div className="prose prose-invert max-w-none">
         {/* @ts-ignore */}
         <MDXRemote source={post.content} />
       </div>

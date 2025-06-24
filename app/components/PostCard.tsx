@@ -20,7 +20,7 @@ export default function PostCard({
   slug,
 }: PostCardProps) {
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
+    <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 hover:shadow-xl transition-shadow">
       {coverImage && (
         <div className="relative h-48">
           <Image
@@ -33,24 +33,24 @@ export default function PostCard({
       )}
       <div className="p-6">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-medium text-secondary-500 bg-secondary-50 px-2 py-1 rounded-full">
+          <span className="text-sm font-medium text-secondary-500 bg-secondary-900 px-2 py-1 rounded-full">
             {category}
           </span>
-          <time className="text-sm text-gray-500">
+          <time className="text-sm text-gray-400">
             {format(new Date(date), 'MMMM d, yyyy')}
           </time>
         </div>
         <Link href={`/${category}/${slug}`}>
-          <h2 className="text-xl font-semibold text-primary-500 mb-2 hover:text-secondary-500 transition-colors">
+          <h2 className="text-xl font-semibold text-white mb-2 hover:text-accent-500 transition-colors">
             {title}
           </h2>
         </Link>
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-300 mb-4">
           {excerpt}
         </p>
         <Link
           href={`/${category}/${slug}`}
-          className="text-secondary-500 hover:text-secondary-600 font-medium transition-colors"
+          className="text-secondary-400 hover:text-secondary-300 font-medium transition-colors"
         >
           Read more →
         </Link>
