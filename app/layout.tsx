@@ -27,24 +27,7 @@ export default function RootLayout({
                 <Link href="/" className="text-2xl font-extrabold tracking-tight text-accent-500 hover:text-white transition-colors">
                   K2U
                 </Link>
-                <div className="hidden md:flex md:space-x-6">
-                  <Link href="/" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
-                    Home
-                  </Link>
-                  <Link href="/life" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
-                    Life
-                  </Link>
-                  <Link href="/work" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
-                    Work
-                  </Link>
-                  <Link href="/jesus" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
-                    Jesus
-                  </Link>
-                  <Link href="/projects" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
-                    Projects
-                  </Link>
-                </div>
-                <div className="md:hidden flex items-center">
+                <div className="flex items-center">
                   <button
                     onClick={() => setMenuOpen(!menuOpen)}
                     className="text-white focus:outline-none"
@@ -58,7 +41,7 @@ export default function RootLayout({
               </div>
             </div>
             {menuOpen && (
-              <div className="md:hidden bg-primary-500 px-2 pb-2 pt-1 rounded-b shadow-lg z-50">
+              <div className="bg-primary-500 px-2 pb-2 pt-1 rounded-b shadow-lg z-50">
                 <Link href="/" className="block text-white hover:text-accent-500 px-2 py-2 rounded-md text-base font-medium transition-colors" onClick={() => setMenuOpen(false)}>
                   Home
                 </Link>
