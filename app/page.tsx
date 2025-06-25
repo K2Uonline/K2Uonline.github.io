@@ -13,7 +13,7 @@ interface Post {
 }
 
 function getAllPosts(): Post[] {
-  const categories = ['life', 'work', 'jesus', 'projects', 'resources', 'response']
+  const categories = ['life', 'work', 'jesus', 'projects']
   const posts: Post[] = []
 
   categories.forEach((category) => {
@@ -48,9 +48,9 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <section className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Welcome to My Personal Website</h1>
+        <h1 className="text-4xl font-bold mb-4">K2U Personal Website</h1>
         <p className="text-xl text-gray-600 dark:text-gray-300">
-          Sharing thoughts on life, work, faith, and technology
+          Getting better at showing people what I'm working on and what I'm thinking about
         </p>
       </section>
 
