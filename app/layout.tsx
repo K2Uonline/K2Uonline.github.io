@@ -6,7 +6,7 @@ import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Personal Website',
+  title: 'K2U',
   description: 'A personal website built with Next.js',
 }
 
@@ -20,34 +20,26 @@ export default function RootLayout({
       <body className={inter.className}>
         <nav className="bg-primary-500 shadow-lg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex">
-                <div className="flex-shrink-0 flex items-center">
-                  <Link href="/" className="text-xl font-bold text-white">
-                    Personal Website
-                  </Link>
-                </div>
-                <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                  <Link href="/" className="text-white hover:text-accent-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+            <div className="flex justify-between items-center h-12 md:h-14">
+              <div className="flex items-center space-x-8">
+                <Link href="/" className="text-2xl font-extrabold tracking-tight text-accent-500 hover:text-white transition-colors">
+                  K2U
+                </Link>
+                <div className="hidden md:flex md:space-x-6">
+                  <Link href="/" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
                     Home
                   </Link>
-                  <Link href="/life" className="text-white hover:text-accent-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <Link href="/life" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
                     Life
                   </Link>
-                  <Link href="/work" className="text-white hover:text-accent-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <Link href="/work" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
                     Work
                   </Link>
-                  <Link href="/jesus" className="text-white hover:text-accent-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <Link href="/jesus" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
                     Jesus
                   </Link>
-                  <Link href="/projects" className="text-white hover:text-accent-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <Link href="/projects" className="text-white hover:text-accent-500 px-2 py-1 rounded-md text-sm font-medium transition-colors">
                     Projects
-                  </Link>
-                  <Link href="/resources" className="text-white hover:text-accent-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                    Resources
-                  </Link>
-                  <Link href="/response" className="text-white hover:text-accent-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                    Response
                   </Link>
                 </div>
               </div>
@@ -60,7 +52,7 @@ export default function RootLayout({
         <footer className="bg-primary-500 shadow-lg mt-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <p className="text-center text-white">
-              © {new Date().getFullYear()} Personal Website. All rights reserved.
+              © {new Date().getFullYear()} K2U. All rights reserved.
             </p>
           </div>
         </footer>
