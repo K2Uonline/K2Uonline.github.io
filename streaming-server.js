@@ -25,13 +25,23 @@ wss.on('connection', (ws) => {
     }
     
     else if (data.type === 'video_frame') {
-      // Forward video frame to all viewers
+      // Forward video frame to all viewers with error handling
+      const frameMessage = JSON.stringify({
+        type: 'video_frame',
+        data: data.data
+      });
+      
       viewers.forEach(viewer => {
         if (viewer.readyState === WebSocket.OPEN) {
-          viewer.send(JSON.stringify({
-            type: 'video_frame',
-            data: data.data
-          }));
+          try {
+            viewer.send(frameMessage);
+          } catch (error) {
+            console.log('Error sending frame to viewer:', error.message);
+            viewers.delete(viewer);
+          }
+        } else {
+          // Remove disconnected viewers
+          viewers.delete(viewer);
         }
       });
     }

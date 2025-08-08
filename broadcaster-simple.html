@@ -66,24 +66,24 @@
       }
     }
 
-    function startStreaming() {
-      if (!streaming) return;
-      
-      // Capture frame from video
-      ctx.drawImage(preview, 0, 0, canvas.width, canvas.height);
-      const frameData = canvas.toDataURL('image/jpeg', 0.7);
-      
-      // Send frame to server
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({
-          type: 'video_frame',
-          data: frameData
-        }));
-      }
-      
-      // Continue streaming
-      setTimeout(startStreaming, 100); // 10 FPS
-    }
+         function startStreaming() {
+       if (!streaming) return;
+       
+       // Capture frame from video
+       ctx.drawImage(preview, 0, 0, canvas.width, canvas.height);
+       const frameData = canvas.toDataURL('image/jpeg', 0.8);
+       
+       // Send frame to server
+       if (ws && ws.readyState === WebSocket.OPEN) {
+         ws.send(JSON.stringify({
+           type: 'video_frame',
+           data: frameData
+         }));
+       }
+       
+       // Continue streaming at higher FPS
+       setTimeout(startStreaming, 33); // ~30 FPS
+     }
 
     startBtn.addEventListener('click', start);
   </script>
