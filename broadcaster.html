@@ -34,10 +34,13 @@
 
       // Create a peer with a known ID so the viewer can call it
       peer = new Peer(id, {
-        // Using PeerJS Cloud for quick demo. Replace with your own PeerServer later.
+        host: 'peerjs-server.herokuapp.com',
+        port: 443,
+        secure: true,
         config: {
           iceServers: [
             { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
           ]
         }
       });
