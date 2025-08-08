@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>HomeCam Broadcaster (Simple)</title>
+  <style>body{font-family:system-ui;margin:24px} video{max-width:600px;display:block;margin-top:12px}</style>
+</head>
+<body>
+  <h1>HomeCam Broadcaster (Simple)</h1>
+  <button id="startBtn">Start Broadcasting</button>
+  <div id="status"></div>
+  <video id="preview" autoplay playsinline muted></video>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const preview = document.getElementById('preview');
+    const startBtn = document.getElementById('startBtn');
+
+    let mediaStream;
+
+    async function start() {
+      statusEl.textContent = 'Requesting camera...';
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ 
+          video: { width: 1280, height: 720 }, 
+          audio: false 
+        });
+        preview.srcObject = mediaStream;
+        statusEl.textContent = 'Camera active - Broadcasting locally';
+        
+        // For now, just show local camera
+        // Later we'll add WebSocket streaming
+        console.log('Camera started successfully');
+        
+      } catch (e) {
+        statusEl.textContent = 'Camera permission failed: ' + e;
+        console.error('Camera error:', e);
+      }
+    }
+
+    startBtn.addEventListener('click', start);
+  </script>
+</body>
+</html>
