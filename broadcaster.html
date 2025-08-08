@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>HomeCam Broadcaster</title>
+  <style>body{font-family:system-ui;margin:24px} video{max-width:600px;display:block;margin-top:12px}</style>
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+</head>
+<body>
+  <h1>HomeCam Broadcaster</h1>
+  <label>Fixed Stream ID (share only with your secret page):</label>
+  <input id="streamId" value="home-cam" />
+  <button id="startBtn">Start Broadcast</button>
+  <div id="status"></div>
+  <video id="preview" autoplay playsinline muted></video>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const preview = document.getElementById('preview');
+    const startBtn = document.getElementById('startBtn');
+
+    let mediaStream, peer;
+
+    async function start() {
+      const id = document.getElementById('streamId').value.trim() || 'home-cam';
+      statusEl.textContent = 'Requesting camera...';
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      } catch (e) {
+        statusEl.textContent = 'Camera permission failed: ' + e;
+        return;
+      }
+      preview.srcObject = mediaStream;
+
+      // Create a peer with a known ID so the viewer can call it
+      peer = new Peer(id, {
+        // Using PeerJS Cloud for quick demo. Replace with your own PeerServer later.
+        config: {
+          iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+          ]
+        }
+      });
+
+      peer.on('open', () => {
+        statusEl.textContent = 'Broadcast live. Peer ID: ' + id;
+        console.log('Broadcaster peer opened with ID:', id);
+      });
+
+      peer.on('call', call => {
+        statusEl.textContent = 'Viewer connected. Sending stream...';
+        console.log('Received call from viewer');
+        call.answer(mediaStream);
+        call.on('close', () => (statusEl.textContent = 'Viewer disconnected.'));
+        call.on('error', err => {
+          statusEl.textContent = 'Call error: ' + err;
+          console.error('Call error:', err);
+        });
+      });
+
+      peer.on('error', err => {
+        statusEl.textContent = 'Peer error: ' + err;
+        console.error('Broadcaster peer error:', err);
+      });
+    }
+
+    startBtn.addEventListener('click', start);
+  </script>
+</body>
+</html> 
