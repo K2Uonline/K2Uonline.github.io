@@ -17,25 +17,72 @@
     const startBtn = document.getElementById('startBtn');
 
     let mediaStream;
+    let ws;
+    let canvas;
+    let ctx;
+    let streaming = false;
 
     async function start() {
       statusEl.textContent = 'Requesting camera...';
       try {
         mediaStream = await navigator.mediaDevices.getUserMedia({ 
-          video: { width: 1280, height: 720 }, 
+          video: { width: 640, height: 480 }, 
           audio: false 
         });
         preview.srcObject = mediaStream;
-        statusEl.textContent = 'Camera active - Broadcasting locally';
         
-        // For now, just show local camera
-        // Later we'll add WebSocket streaming
+        // Setup canvas for capturing frames
+        canvas = document.createElement('canvas');
+        canvas.width = 640;
+        canvas.height = 480;
+        ctx = canvas.getContext('2d');
+        
+        // Connect to streaming server
+        ws = new WebSocket('ws://localhost:3001');
+        
+        ws.onopen = () => {
+          ws.send(JSON.stringify({ type: 'broadcaster' }));
+          statusEl.textContent = 'Connected to server, starting stream...';
+        };
+        
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if (data.type === 'broadcaster_ready') {
+            statusEl.textContent = 'Broadcasting live!';
+            streaming = true;
+            startStreaming();
+          }
+        };
+        
+        ws.onerror = (error) => {
+          statusEl.textContent = 'WebSocket error: ' + error;
+        };
+        
         console.log('Camera started successfully');
         
       } catch (e) {
         statusEl.textContent = 'Camera permission failed: ' + e;
         console.error('Camera error:', e);
       }
+    }
+
+    function startStreaming() {
+      if (!streaming) return;
+      
+      // Capture frame from video
+      ctx.drawImage(preview, 0, 0, canvas.width, canvas.height);
+      const frameData = canvas.toDataURL('image/jpeg', 0.7);
+      
+      // Send frame to server
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+          type: 'video_frame',
+          data: frameData
+        }));
+      }
+      
+      // Continue streaming
+      setTimeout(startStreaming, 100); // 10 FPS
     }
 
     startBtn.addEventListener('click', start);
