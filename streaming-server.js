@@ -59,6 +59,8 @@ wss.on('connection', (ws) => {
 });
 
 const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  console.log(`Streaming server running on port ${PORT}`);
+const HOST = process.env.HOST || '0.0.0.0'; // Allow connections from any IP
+server.listen(PORT, HOST, () => {
+  console.log(`Streaming server running on ${HOST}:${PORT}`);
+  console.log(`Access from other devices on your network using your computer's IP address`);
 });
