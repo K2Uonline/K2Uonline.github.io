@@ -1,0 +1,107 @@
+# Settings for the post editor at https://k2uonline.github.io/admin/
+# Docs: https://sveltiacms.app/en/docs  ·  How to use it: docs/WRITING.md
+#
+# Every save is a commit to main in the private repo, which rebuilds and
+# republishes the public site about a minute later.
+
+app_title: K2U Writer
+site_url: https://k2uonline.github.io
+
+backend:
+  name: github
+  repo: K2Uonline/k2u-website
+  branch: main
+  # Sign in with a fine-grained GitHub token that can write to this private repo.
+  # Nobody else has one, so nobody else can edit.
+  auth_methods: [token]
+  commit_messages:
+    create: 'New {{collection}} post: {{slug}}'
+    update: 'Edit {{collection}} post: {{slug}}'
+    delete: 'Delete {{collection}} post: {{slug}}'
+    uploadMedia: 'Upload image {{path}}'
+    deleteMedia: 'Delete image {{path}}'
+
+# Images are saved in the repo under public/images and served from /images.
+media_folder: public/images
+public_folder: /images
+media_libraries:
+  default:
+    config:
+      max_file_size: 26214400 # 25 MB before shrinking
+      slugify_filename: true # "My Photo.JPG" → my-photo.webp
+      transformations:
+        # Shrink big photos and convert to WebP so pages load fast.
+        jpeg: { format: webp, quality: 85, width: 2000, height: 2000 }
+        png: { format: webp, quality: 85, width: 2000, height: 2000 }
+        heic: { format: webp, quality: 85, width: 2000, height: 2000 }
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: life
+    label: Life
+    label_singular: Life post
+    folder: content/life
+    extension: md
+    format: frontmatter
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}} · {{date}}'
+    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
+    # Same fields for every section. The section a post belongs to comes from its
+    # folder, so there's no category field to get wrong.
+    fields: &post_fields
+      - { label: Title, name: title, widget: string }
+      - label: Date
+        name: date
+        widget: datetime
+        format: YYYY-MM-DD
+        time_format: false
+        default: '{{now}}'
+      - { label: Short description, name: excerpt, widget: string, hint: 'Shown on post cards and link previews.' }
+      - { label: Cover image, name: coverImage, widget: image, required: false }
+      - label: Draft
+        name: draft
+        widget: boolean
+        default: false
+        required: false
+        hint: 'Drafts are saved but not shown on the site.'
+      - { label: Body, name: body, widget: markdown }
+
+  - name: work
+    label: Work
+    label_singular: Work post
+    folder: content/work
+    extension: md
+    format: frontmatter
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}} · {{date}}'
+    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
+    fields: *post_fields
+
+  - name: jesus
+    label: Jesus
+    label_singular: Jesus post
+    folder: content/jesus
+    extension: md
+    format: frontmatter
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}} · {{date}}'
+    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
+    fields: *post_fields
+
+  - name: projects
+    label: Projects
+    label_singular: Project post
+    folder: content/projects
+    extension: md
+    format: frontmatter
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}} · {{date}}'
+    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
+    fields: *post_fields
