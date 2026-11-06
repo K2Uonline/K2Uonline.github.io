@@ -15,9 +15,9 @@ backend:
   # Nobody else has one, so nobody else can edit.
   auth_methods: [token]
   commit_messages:
-    create: 'New {{collection}} post: {{slug}}'
-    update: 'Edit {{collection}} post: {{slug}}'
-    delete: 'Delete {{collection}} post: {{slug}}'
+    create: 'New {{collection}}: {{slug}}'
+    update: 'Edit {{collection}}: {{slug}}'
+    delete: 'Delete {{collection}}: {{slug}}'
     uploadMedia: 'Upload image {{path}}'
     deleteMedia: 'Delete image {{path}}'
 
@@ -40,20 +40,35 @@ slug:
   clean_accents: true
 
 collections:
-  - name: life
-    label: Life
-    label_singular: Life post
-    folder: content/life
+  # ── Posts ─────────────────────────────────────────────────────────────────
+  # Every post lives in content/posts/. Its Topic decides where it shows up:
+  # a post with topic "life" is at /life/<post-slug>/.
+  - name: posts
+    label: Posts
+    label_singular: Post
+    icon: article
+    folder: content/posts
     extension: md
     format: frontmatter
     create: true
     slug: '{{slug}}'
     summary: '{{title}} · {{date}}'
     sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
-    # Same fields for every section. The section a post belongs to comes from its
-    # folder, so there's no category field to get wrong.
-    fields: &post_fields
+    view_groups:
+      groups:
+        - { name: topic, label: Topic, field: topic }
+      default: topic
+    fields:
       - { label: Title, name: title, widget: string }
+      - label: Topic
+        name: topic
+        widget: relation
+        collection: settings
+        file: topics
+        value_field: 'topics.*.slug'
+        display_fields: ['topics.*.name']
+        search_fields: ['topics.*.name']
+        hint: 'Add or rename topics under **Settings → Topics**.'
       - label: Date
         name: date
         widget: datetime
@@ -70,38 +85,30 @@ collections:
         hint: 'Drafts are saved but not shown on the site.'
       - { label: Body, name: body, widget: markdown }
 
-  - name: work
-    label: Work
-    label_singular: Work post
-    folder: content/work
-    extension: md
-    format: frontmatter
-    create: true
-    slug: '{{slug}}'
-    summary: '{{title}} · {{date}}'
-    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
-    fields: *post_fields
-
-  - name: jesus
-    label: Jesus
-    label_singular: Jesus post
-    folder: content/jesus
-    extension: md
-    format: frontmatter
-    create: true
-    slug: '{{slug}}'
-    summary: '{{title}} · {{date}}'
-    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
-    fields: *post_fields
-
-  - name: projects
-    label: Projects
-    label_singular: Project post
-    folder: content/projects
-    extension: md
-    format: frontmatter
-    create: true
-    slug: '{{slug}}'
-    summary: '{{title}} · {{date}}'
-    sortable_fields: { fields: [date, title], default: { field: date, direction: descending } }
-    fields: *post_fields
+  # ── Settings → Topics ─────────────────────────────────────────────────────
+  # The site's topics (menu sections), stored in content/topics.yml.
+  - name: settings
+    label: Settings
+    icon: settings
+    files:
+      - name: topics
+        label: Topics
+        icon: folder
+        file: content/topics.yml
+        format: yaml
+        fields:
+          - label: Topics
+            name: topics
+            widget: list
+            label_singular: topic
+            summary: '{{fields.name}}  (/{{fields.slug}}/)'
+            hint: 'Drag to reorder: this is the order in the top menu.'
+            fields:
+              - { label: Name, name: name, widget: string, hint: 'Shown in the menu and on the topic page. Safe to change any time.' }
+              - label: URL
+                name: slug
+                widget: string
+                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Lowercase letters, numbers and dashes only, like "book-notes".']
+                hint: 'The web address: **book-notes** → k2uonline.github.io/book-notes/. Don''t change it after posts use this topic.'
+              - { label: Description, name: description, widget: string, required: false, hint: 'Optional line under the title on the topic page.' }
+              - { label: Show in menu, name: show_in_menu, widget: boolean, default: true, required: false }
